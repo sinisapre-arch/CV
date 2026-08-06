@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Синиша Предрагович — Ландшафтный дизайнер · 3D-визуализатор · AI-художник</title>
+<meta name="description" content="Портфолио и резюме Синиши Предраговича: ландшафтный дизайн, 3D-визуализация, AI-арт, технический надзор на объекте. Москва, Россия.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#0d1b17; --forest-2:#142620; --forest-3:#1a2e27;
+  --gold:#c9a962; --gold-soft:#e8d4a8; --gold-dim:#a88d4f;
+  --ink:#1a2e27; --ink-soft:#5a6d64; --ink-mute:#8a9b91;
+  --paper:#faf9f6; --paper-2:#f3f1ec; --line:#e8e4dd;
+  --white:#ffffff; --shadow:rgba(13,27,23,.08);
+  --focus:#c9a962;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --forest:#080808; --forest-2:#0f0f0f; --forest-3:#171717;
+    --paper:#0a0a0a; --paper-2:#111; --line:#2a2a2a;
+    --ink:#f0ebe5; --ink-soft:#b8aea3; --ink-mute:#8a8278;
+    --white:#0d0d0d; --shadow:rgba(0,0,0,.5);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *, *::before, *::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+body{
+  margin:0;font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);color:var(--ink);line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--gold)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:3px}
+
+/* Noise overlay */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1000;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  opacity:.5;mix-blend-mode:overlay
+}
+
+/* Scroll progress bar */
+#scroll-progress{
+  position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-soft));
+  transform-origin:left;transform:scaleX(0);z-index:999;
+  will-change:transform;transition:transform .1s linear
+}
+
+/* Language toggle */
+.lang-toggle{
+  position:fixed;top:1rem;right:1rem;z-index:100;
+  display:flex;gap:.5rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:.25rem;box-shadow:var(--shadow)
+}
+.lang-btn{
+  padding:.4rem .9rem;font-size:.8rem;font-weight:500;letter-spacing:.05em;
+  text-transform:uppercase;border:none;background:transparent;color:var(--ink-mute);
+  cursor:pointer;border-radius:999px;transition:all .2s var(--ease)
+}
+.lang-btn.active{background:var(--forest);color:var(--gold)}
+.lang-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* Layout */
+.page{max-width:900px;margin:0 auto;padding:0 1.5rem}
+@media (min-width:768px){.page{padding:0 3rem}}
+header{padding:5rem 0 3rem;text-align:center}
+.profile-photo{
+  width:140px;height:140px;border-radius:50%;object-fit:cover;
+  border:3px solid var(--gold);box-shadow:0 0 0 1px var(--line),0 20px 40px var(--shadow);
+  margin:0 auto 1.5rem;transition:transform .4s var(--ease-out),box-shadow .4s var(--ease)
+}
+.profile-photo:hover{transform:scale(1.02);box-shadow:0 0 0 1px var(--gold),0 30px 60px var(--shadow)}
+h1{
+  font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2.5rem,5vw,4rem);
+  line-height:1.1;letter-spacing:-.02em;color:var(--forest);margin:0 0 .5rem
+}
+h1 .last{color:var(--gold)}
+.headline{
+  font-size:.85rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 1rem
+}
+.contact-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 1.5rem;font-size:.8rem;color:var(--ink-soft)}
+.contact-bar span{display:inline-flex;align-items:center;gap:.4rem}
+.contact-bar .ico{color:var(--gold);font-size:.9rem}
+
+/* Sections */
+section{padding:4rem 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+.section-title{
+  font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.75rem,3.5vw,2.5rem);
+  color:var(--forest);margin:0 0 2rem;position:relative;display:inline-block
+}
+.section-title::after{
+  content:"";position:absolute;bottom:-.5rem;left:0;width:60px;height:2px;background:var(--gold)
+}
+
+/* Reveal animations (CSS fallback) */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}.reveal-delay-4{transition-delay:.4s}
+
+/* Experience cards */
+.exp-grid{display:grid;gap:1.5rem}
+@media (min-width:640px){.exp-grid{grid-template-columns:repeat(2,1fr)}}
+.exp-card{
+  background:var(--white);border:1px solid var(--line);border-radius:12px;
+  padding:1.75rem;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease)
+}
+.exp-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px var(--shadow);border-color:var(--gold-dim)}
+.exp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.5rem;flex-wrap:wrap}
+.exp-role{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;color:var(--forest);line-height:1.2}
+.exp-date{font-size:.8rem;font-weight:600;color:var(--gold);white-space:nowrap;letter-spacing:.03em}
+.exp-company{font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;font-weight:500}
+.exp-company .dot{color:var(--gold);margin:0 .5rem}
+.exp-card ul{margin:0;padding:0;list-style:none}
+.exp-card li{
+  position:relative;padding-left:1.5rem;font-size:.9rem;line-height:1.5;
+  color:var(--ink);margin-bottom:.5rem
+}
+.exp-card li:last-child{margin-bottom:0}
+.exp-card li::before{
+  content:"";position:absolute;left:0;top:.55rem;width:6px;height:6px;
+  background:var(--gold);border-radius:50%
+}
+
+/* Skills tags */
+.skills-grid{display:flex;flex-wrap:wrap;gap:.6rem}
+.skill-tag{
+  padding:.5rem 1rem;font-size:.8rem;line-height:1.3;
+  background:var(--white);border:1px solid var(--line);border-radius:999px;
+  color:var(--ink);transition:all .2s var(--ease)
+}
+.skill-tag:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.skill-group{margin-bottom:1.5rem}
+.skill-group-title{
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 .75rem
+}
+
+/* Languages */
+.lang-grid{display:grid;gap:1rem}
+@media (min-width:480px){.lang-grid{grid-template-columns:repeat(2,1fr)}}
+.lang-item{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--white);border:1px solid var(--line);border-radius:10px}
+.lang-flag{font-size:1.5rem;flex-shrink:0}
+.lang-info{flex:1}
+.lang-name{font-weight:600;font-size:.95rem;color:var(--forest)}
+.lang-level{font-size:.8rem;color:var(--ink-soft);margin-top:.15rem}
+.lang-bar{height:4px;background:var(--line);border-radius:2px;margin-top:.5rem;overflow:hidden}
+.lang-bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:2px;transition:width .8s var(--ease-out)}
+
+/* Education */
+.edu-grid{display:grid;gap:1rem}
+.edu-card{padding:1.25rem;background:var(--white);border:1px solid var(--line);border-radius:10px;transition:border-color .2s var(--ease)}
+.edu-card:hover{border-color:var(--gold-dim)}
+.edu-degree{font-weight:600;font-size:.95rem;color:var(--forest);margin:0 0 .25rem}
+.edu-school{font-size:.9rem;color:var(--gold);margin:0 0 .25rem}
+.edu-date{font-size:.8rem;color:var(--ink-mute);margin:0}
+
+/* Cover letter section */
+.cover-letter{background:var(--forest-2);border-radius:16px;padding:3rem 2rem;color:var(--paper)}
+.cover-letter .section-title{color:var(--gold-soft)}
+.cover-letter .section-title::after{background:var(--gold-soft)}
+.cover-letter p{font-size:1rem;line-height:1.7;color:var(--ink-soft);margin:0 0 1.25rem;max-width:700px}
+.cover-letter p:last-child{margin-bottom:0}
+.signoff{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(201,169,98,.2)}
+.closing{font-size:.95rem;color:var(--gold-soft);margin-bottom:.5rem}
+.signature{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.5rem;color:var(--gold-soft)}
+
+/* Footer */
+footer{padding:3rem 0 2rem;text-align:center;color:var(--ink-mute);font-size:.8rem;border-top:1px solid var(--line);margin-top:2rem}
+footer a{color:var(--ink-soft);text-decoration:underline;text-underline-offset:2px}
+footer a:hover{color:var(--gold)}
+
+/* Print styles */
+@media print{
+  .lang-toggle,#scroll-progress,body::before{display:none !important}
+  .page{max-width:none;padding:0}
+  body{background:white;color:black;font-size:11pt;line-height:1.5}
+  section{break-inside:avoid;page-break-inside:avoid;padding:1.5rem 0}
+  .exp-card,.edu-card,.lang-item,.skill-tag{break-inside:avoid;page-break-inside:avoid;box-shadow:none;border:1px solid #ddd}
+  .profile-photo{width:100px;height:100px}
+  h1{font-size:28pt}.section-title{font-size:18pt}
+  .cover-letter{background:#f5f0e8 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.7em;color:#666}
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .lang-bar > span{transition:none}
+}
+</style>
+</head>
+<body>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="lang-toggle" role="group" aria-label="Language">
+  <button class="lang-btn active" data-lang="ru" aria-pressed="true">RU</button>
+  <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+</div>
+
+<main class="page">
+  <header>
+    <img class="profile-photo reveal" src="assets/profile.jpg" alt="Синиша Предрагович" loading="eager">
+    <h1 class="reveal reveal-delay-1">Синиша <span class="last">Предрагович</span></h1>
+    <p class="headline reveal reveal-delay-2">Ландшафтный дизайнер · 3D-визуализатор · AI-художник</p>
+    <div class="contact-bar reveal reveal-delay-3">
+      <span><span class="ico">✉</span>sinisapre@gmail.com</span>
+      <span><span class="ico">☎</span>+7 985 111 80 16</span>
+      <span><span class="ico">⌖</span>Москва, Россия</span>
+      <span><span class="ico">🎂</span>8 июля 1986</span>
+    </div>
+  </header>
+
+  <section id="experience" aria-labelledby="exp-title">
+    <h2 class="section-title reveal" id="exp-title" data-ru="Опыт работы" data-en="Experience">Опыт работы</h2>
+    <div class="exp-grid">
+      <article class="exp-card reveal reveal-delay-1">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Индивидуальный предприниматель — ландшафтный дизайн, визуализация и AI-арт" data-en="Individual Entrepreneur — Landscape Design, Visualization & AI Art">Индивидуальный предприниматель — ландшафтный дизайн, визуализация и AI-арт</h3>
+          <time class="exp-date" datetime="2025-07">июль 2025 — наст.вр.</time>
+        </div>
+        <p class="exp-company" data-ru="ИП · Москва" data-en="Sole Proprietorship · Moscow">ИП · Москва</p>
+        <ul>
+          <li data-ru="Проектирование ландшафтных решений и частных жилых объектов для индивидуальных заказчиков." data-en="Designing landscape solutions and private residential projects for individual clients.">Проектирование ландшафтных решений и частных жилых объектов для индивидуальных заказчиков.</li>
+          <li data-ru="Работа старшим AI-художником по контракту с киностудиями и видеопроизводствами — создание визуальных концептов и материалов для телевизионной рекламы." data-en="Senior AI Artist on contract with film studios and video productions — creating visual concepts and assets for TV commercials.">Работа старшим AI-художником по контракту с киностудиями и видеопроизводствами — создание визуальных концептов и материалов для телевизионной рекламы.</li>
+        </ul>
+      </article>
+
+      <article class="exp-card reveal reveal-delay-2">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Генеральный директор (CEO)" data-en="General Director (CEO)">Генеральный директор (CEO)</h3>
+          <time class="exp-date" datetime="2018-01">2018 — 2025</time>
+        </div>
+        <p class="exp-company"><span data-ru="STHLM Urban Design AB" data-en="STHLM Urban Design AB">STHLM Urban Design AB</span><span class="dot">●</span><span data-ru="Ландшафтный дизайн и строительство" data-en="Landscape Design & Construction">Ландшафтный дизайн и строительство</span><span class="dot">●</span><span data-ru="Стокгольм" data-en="Stockholm">Стокгольм</span> <span style="color:var(--gold)" data-ru="(продана)" data-en="(sold)">(продана)</span></p>
+        <ul>
+          <li data-ru="Полное руководство компанией: финансы и бухгалтерия, продажи, управление проектами и персоналом, расчёт заработной платы." data-en="Full company management: finance & accounting, sales, project & team management, payroll.">Полное руководство компанией: финансы и бухгалтерия, продажи, управление проектами и персоналом, расчёт заработной платы.</li>
+          <li data-ru="Личное участие в проектировании объектов и проведении инженерной съёмки." data-en="Personal involvement in project design and engineering surveys.">Личное участие в проектировании объектов и проведении инженерной съёмки.</li>
+          <li data-ru="Управление закупками, заказами и сметным ценообразованием; успешная продажа бизнеса в 2025 году." data-en="Procurement, orders & cost estimation; successful business sale in 2025.">Управление закупками, заказами и сметным ценообразованием; успешная продажа бизнеса в 2025 году.</li>
+        </ul>
+      </article>
+
+      <article class="exp-card reveal reveal-delay-3">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Финансовый директор / Руководитель проектов (совладелец)" data-en="CFO / Project Manager (Co-owner)">Финансовый директор / Руководитель проектов (совладелец)</h3>
+          <time class="exp-date" datetime="2014-01">2014 — 2017</time>
+        </div>
+        <p class="exp-company"><span data-ru="SSD BYGG AB" data-en="SSD BYGG AB">SSD BYGG AB</span><span class="dot">●</span><span data-ru="Нулевой цикл и благоустройство" data-en="Earthworks & Landscaping">Нулевой цикл и благоустройство</span><span class="dot">●</span><span data-ru="Швеция" data-en="Sweden">Швеция</span></p>
+        <ul>
+          <li data-ru="Финансовое управление и руководство проектами в строительной компании (нулевой цикл и благоустройство)." data-en="Financial management & project leadership in construction (earthworks & landscaping).">Финансовое управление и руководство проектами в строительной компании (нулевой цикл и благоустройство).</li>
+          <li data-ru="Ведение бухгалтерии и финансов, продажи, управление персоналом и расчёт заработной платы." data-en="Accounting & finance, sales, HR & payroll.">Ведение бухгалтерии и финансов, продажи, управление персоналом и расчёт заработной платы.</li>
+          <li data-ru="Управление закупками, заказами и сметами." data-en="Procurement, orders & estimates.">Управление закупками, заказами и сметами.</li>
+        </ul>
+      </article>
+
+      <article class="exp-card reveal reveal-delay-4">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Строительный рабочий / Прораб" data-en="Construction Worker / Foreman">Строительный рабочий / Прораб</h3>
+          <time class="exp-date" datetime="2012-01">2012 — 2014</time>
+        </div>
+        <p class="exp-company"><span data-ru="Byggbröderna AB" data-en="Byggbröderna AB">Byggbröderna AB</span><span class="dot">●</span><span data-ru="Нулевой цикл и благоустройство" data-en="Earthworks & Landscaping">Нулевой цикл и благоустройство</span><span class="dot">●</span><span data-ru="B2B-субподряд" data-en="B2B Subcontracting">B2B-субподряд</span></p>
+        <ul>
+          <li data-ru="Организация и координация работы бригад на строительных объектах." data-en="Organizing & coordinating crews on construction sites.">Организация и координация работы бригад на строительных объектах.</li>
+          <li data-ru="Составление графиков работы бригад и техники, заказ материалов и расчёт объёмов работ." data-en="Scheduling crews & equipment, ordering materials, calculating work volumes.">Составление графиков работы бригад и техники, заказ материалов и расчёт объёмов работ.</li>
+        </ul>
+      </article>
+
+      <article class="exp-card reveal reveal-delay-1">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Руководитель проектов / Бизнес-советник при главе технического отдела" data-en="Project Manager / Business Advisor to Head of Technical Dept.">Руководитель проектов / Бизнес-советник при главе технического отдела</h3>
+          <time class="exp-date" datetime="2010-01">2010 — 2012</time>
+        </div>
+        <p class="exp-company"><span data-ru="TELIA AB — Group IT" data-en="TELIA AB — Group IT">TELIA AB — Group IT</span><span class="dot">●</span><span data-ru="Швеция" data-en="Sweden">Швеция</span></p>
+        <ul>
+          <li data-ru="Руководство проектами по сокращению издержек и внедрение внутренних IT-систем с обучением сотрудников." data-en="Led cost-reduction projects & internal IT system rollouts with staff training.">Руководство проектами по сокращению издержек и внедрение внутренних IT-систем с обучением сотрудников.</li>
+          <li data-ru="Финансовый анализ, бюджетирование проектов, проверка и утверждение." data-en="Financial analysis, project budgeting, review & approval.">Финансовый анализ, бюджетирование проектов, проверка и утверждение.</li>
+        </ul>
+      </article>
+
+      <article class="exp-card reveal reveal-delay-2">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Стажировка по управлению — Revenue Management" data-en="Management Trainee — Revenue Management">Стажировка по управлению — Revenue Management</h3>
+          <time class="exp-date" datetime="2009-01">2009 — 2010</time>
+        </div>
+        <p class="exp-company"><span data-ru="Hilton Fort Lauderdale Beach Resort" data-en="Hilton Fort Lauderdale Beach Resort">Hilton Fort Lauderdale Beach Resort</span><span class="dot">●</span><span data-ru="США" data-en="USA">США</span></p>
+        <ul>
+          <li data-ru="Программа подготовки руководителей в отделе управления доходами; финансовый анализ." data-en="Management training in Revenue Management; financial analysis.">Программа подготовки руководителей в отделе управления доходами; финансовый анализ.</li>
+          <li data-ru="Прогнозирование загрузки номерного фонда и динамическое ценообразование по сегментам и каналам продаж." data-en="Occupancy forecasting & dynamic pricing by segments & channels.">Прогнозирование загрузки номерного фонда и динамическое ценообразование по сегментам и каналам продаж.</li>
+          <li data-ru="Анализ конкурентной среды и рыночного спроса для корректировки тарифной политики." data-en="Competitive & demand analysis for rate strategy.">Анализ конкурентной среды и рыночного спроса для корректировки тарифной политики.</li>
+          <li data-ru="Ведение отчётности по показателям RevPAR, ADR и загрузке; участие в еженедельных revenue-совещаниях." data-en="RevPAR, ADR & occupancy reporting; weekly revenue meetings.">Ведение отчётности по показателям RevPAR, ADR и загрузке; участие в еженедельных revenue-совещаниях.</li>
+        </ul>
+      </article>
+
+      <article class="exp-card reveal reveal-delay-3">
+        <div class="exp-head">
+          <h3 class="exp-role" data-ru="Стажировка по управлению (Management Training)" data-en="Management Trainee">Стажировка по управлению (Management Training)</h3>
+          <time class="exp-date" datetime="2008-01">2008 (6 месяцев)</time>
+        </div>
+        <p class="exp-company"><span data-ru="SAS Radisson Blu Hotel" data-en="SAS Radisson Blu Hotel">SAS Radisson Blu Hotel</span><span class="dot">●</span><span data-ru="Бухарест, Румыния" data-en="Bucharest, Romania">Бухарест, Румыния</span></p>
+        <ul>
+          <li data-ru="Участник команды по открытию отеля." data-en="Part of hotel pre-opening team.">Участник команды по открытию отеля.</li>
+          <li data-ru="Стажировка в отделе продаж; работа с корпоративными клиентами и продажа номерного фонда." data-en="Sales department rotation; corporate accounts & room sales.">Стажировка в отделе продаж; участие в работе с корпоративными клиентами и продажах номерного фонда.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills" aria-labelledby="skills-title">
+    <h2 class="section-title reveal" id="skills-title" data-ru="Навыки и инструменты" data-en="Skills & Tools">Навыки и инструменты</h2>
+    <div class="reveal reveal-delay-1">
+      <h3 class="skill-group-title" data-ru="BIM / CAD" data-en="BIM / CAD">BIM / CAD</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Autodesk Revit</span>
+        <span class="skill-tag">Civil 3D</span>
+        <span class="skill-tag">ArchiCAD</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <h3 class="skill-group-title" data-ru="Визуализация" data-en="Visualization">Визуализация</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Twinmotion</span>
+        <span class="skill-tag">D5 Render</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-3">
+      <h3 class="skill-group-title" data-ru="Съёмка / фотограмметрия" data-en="Surveying / Photogrammetry">Съёмка / фотограмметрия</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Pix4D</span>
+        <span class="skill-tag">ReCap</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-4">
+      <h3 class="skill-group-title" data-ru="Графика и медиа" data-en="Graphics & Media">Графика и медиа</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Photoshop</span>
+        <span class="skill-tag">Illustrator</span>
+        <span class="skill-tag">InDesign</span>
+        <span class="skill-tag">Premiere Pro</span>
+        <span class="skill-tag">DaVinci Resolve 21</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <h3 class="skill-group-title" data-ru="Офис" data-en="Office">Офис</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Acrobat Pro</span>
+        <span class="skill-tag">MS Office</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <h3 class="skill-group-title" data-ru="Технические навыки" data-en="Technical Skills">Технические навыки</h3>
+      <div class="skills-grid">
+        <span class="skill-tag" data-ru="Топографическая съёмка, построение планов и разбивочные работы на объекте (собственное оборудование)" data-en="Topographic surveying, plan preparation & site layout (own equipment)">Топографическая съёмка, планы и разбивка (собственное оборудование)</span>
+        <span class="skill-tag" data-ru="Пилотирование БПЛА, аэрофотосъёмка и фотограмметрия" data-en="Drone piloting, aerial photography & photogrammetry">БПЛА: аэрофотосъёмка и фотограмметрия</span>
+        <span class="skill-tag" data-ru="Оператор экскаватора" data-en="Excavator operator">Оператор экскаватора</span>
+        <span class="skill-tag" data-ru="Оператор фронтального погрузчика" data-en="Front loader operator">Оператор фронтального погрузчика</span>
+        <span class="skill-tag" data-ru="ComfyUI" data-en="ComfyUI">ComfyUI</span>
+        <span class="skill-tag" data-ru="Водительские права — кат. B" data-en="Driver's license — cat. B">Водительские права — кат. B</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="languages" aria-labelledby="lang-title">
+    <h2 class="section-title reveal" id="lang-title" data-ru="Языки" data-en="Languages">Языки</h2>
+    <div class="lang-grid">
+      <div class="lang-item reveal reveal-delay-1">
+        <span class="lang-flag">🇷🇸</span>
+        <div class="lang-info">
+          <div class="lang-name" data-ru="Сербский" data-en="Serbian">Сербский</div>
+          <div class="lang-level" data-ru="Родной" data-en="Native">Родной</div>
+          <div class="lang-bar"><span style="width:100%"></span></div>
+        </div>
+      </div>
+      <div class="lang-item reveal reveal-delay-2">
+        <span class="lang-flag">🇸🇪</span>
+        <div class="lang-info">
+          <div class="lang-name" data-ru="Шведский" data-en="Swedish">Шведский</div>
+          <div class="lang-level" data-ru="Родной" data-en="Native">Родной</div>
+          <div class="lang-bar"><span style="width:100%"></span></div>
+        </div>
+      </div>
+      <div class="lang-item reveal reveal-delay-3">
+        <span class="lang-flag">🇬🇧</span>
+        <div class="lang-info">
+          <div class="lang-name" data-ru="Английский" data-en="English">Английский</div>
+          <div class="lang-level" data-ru="Родной" data-en="Native">Родной</div>
+          <div class="lang-bar"><span style="width:100%"></span></div>
+        </div>
+      </div>
+      <div class="lang-item reveal reveal-delay-4">
+        <span class="lang-flag">🇷🇺</span>
+        <div class="lang-info">
+          <div class="lang-name" data-ru="Русский" data-en="Russian">Русский</div>
+          <div class="lang-level" data-ru="Разговорный" data-en="Conversational">Разговорный</div>
+          <div class="lang-bar"><span style="width:60%"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" aria-labelledby="edu-title">
+    <h2 class="section-title reveal" id="edu-title" data-ru="Образование" data-en="Education">Образование</h2>
+    <div class="edu-grid">
+      <article class="edu-card reveal reveal-delay-1">
+        <h3 class="edu-degree" data-ru="Бакалавр · Международный бизнес" data-en="Bachelor · International Business">Бакалавр · Международный бизнес</h3>
+        <p class="edu-school" data-ru="César Ritz Colleges International, Швейцария" data-en="César Ritz Colleges International, Switzerland">César Ritz Colleges International, Швейцария</p>
+        <p class="edu-date">2006 — 2009</p>
+      </article>
+      <article class="edu-card reveal reveal-delay-2">
+        <h3 class="edu-degree" data-ru="IT Management" data-en="IT Management">IT Management</h3>
+        <p class="edu-school" data-ru="Королевский технологический институт (KTH), Швеция" data-en="KTH Royal Institute of Technology, Sweden">Королевский технологический институт (KTH), Швеция</p>
+        <p class="edu-date">2004 — 2006</p>
+      </article>
+      <article class="edu-card reveal reveal-delay-3">
+        <h3 class="edu-degree" data-ru="Среднее образование (международное)" data-en="Secondary Education (International)">Среднее образование (международное)</h3>
+        <p class="edu-school" data-ru="Kungsholmens Gymnasium, Швеция" data-en="Kungsholmens Gymnasium, Sweden">Kungsholmens Gymnasium, Швеция</p>
+        <p class="edu-date">2001 — 2004</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="cover-letter" aria-labelledby="cl-title" class="cover-letter">
+    <h2 class="section-title reveal" id="cl-title" data-ru="Сопроводительное письмо" data-en="Cover Letter">Сопроводительное письмо</h2>
+    <div class="reveal reveal-delay-1">
+      <p data-ru="Здравствуйте," data-en="Hello,">Здравствуйте,</p>
+      <p data-ru="Я родился и вырос в Швеции в семье сербских родителей и с детства провёл практически всю жизнь на стройплощадках — я вырос в семейном строительном бизнесе. После учёбы и нескольких лет работы за рубежом вернулся в семейную компанию, которая работала субподрядчиком крупных строительных фирм, а затем создал собственную компанию, специализировавшуюся на устройстве фундаментов и ландшафтном благоустройстве для частных клиентов. В 2017 году продал свою долю и основал ещё одну компанию — уже полностью самостоятельно, — сосредоточившись на ландшафтном проектировании и строительстве. Успешно руководил ею до 2025 года, когда мы с женой приняли решение переехать в Россию — тогда я продал компанию." data-en="I was born and raised in Sweden to Serbian parents and spent practically my entire childhood on construction sites — I grew up in a family construction business. After studying and working abroad for several years, I returned to the family company, which operated as a subcontractor for major construction firms, and later founded my own company specializing in foundations and landscaping for private clients. In 2017 I sold my share and started another company — fully independently — focusing on landscape design and construction. I successfully ran it until 2025, when my wife and I decided to move to Russia — I sold the company then.">Я родился и вырос в Швеции в семье сербских родителей и с детства провёл практически всю жизнь на стройплощадках — я вырос в семейном строительном бизнесе. После учёбы и нескольких лет работы за рубежом вернулся в семейную компанию, которая работала субподрядчиком крупных строительных фирм, а затем создал собственную компанию, специализировавшуюся на устройстве фундаментов и ландшафтном благоустройстве для частных клиентов. В 2017 году продал свою долю и основал ещё одну компанию — уже полностью самостоятельно, — сосредоточившись на ландшафтном проектировании и строительстве. Успешно руководил ею до 2025 года, когда мы с женой приняли решение переехать в Россию — тогда я продал компанию.</p>
+      <p data-ru="В июле 2025 года переехал в Россию вместе с женой и сейчас выстраиваю карьеру здесь. В работе стараюсь держать полный цикл под личным контролем: сам разрабатываю ландшафтный дизайн, провожу съёмку и разбивку на местности, а затем слежу за реализацией на объекте, чтобы всё было построено в точном соответствии с проектом." data-en="In July 2025 I moved to Russia with my wife and am now building my career here. In my work I aim to keep the full cycle under personal control: I design the landscape myself, conduct site surveys and layout, and then oversee implementation on site to ensure everything is built exactly to spec.">В июле 2025 года переехал в Россию вместе с женой и сейчас выстраиваю карьеру здесь. В работе стараюсь держать полный цикл под личным контролем: сам разрабатываю ландшафтный дизайн, провожу съёмку и разбивку на местности, а затем слежу за реализацией на объекте, чтобы всё было построено в точном соответствии с проектом.</p>
+      <p data-ru="Я понимаю язык проекта и одновременно знаю, как он реализуется на площадке. Буду рад обсудить, чем мой опыт может быть полезен вашему бюро — будь то технический надзор, контроль реализации на объекте или сопровождение ландшафтных решений от чертежа до сдачи." data-en="I understand the language of the project and simultaneously know how it gets built on site. I'd be glad to discuss how my experience can benefit your studio — whether it's technical supervision, on-site implementation control, or shepherding landscape solutions from drawing to handover.">Я понимаю язык проекта и одновременно знаю, как он реализуется на площадке. Буду рад обсудить, чем мой опыт может быть полезен вашему бюро — будь то технический надзор, контроль реализации на объекте или сопровождение ландшафтных решений от чертежа до сдачи.</p>
+      <div class="signoff">
+        <p class="closing" data-ru="С уважением," data-en="Best regards,">С уважением,</p>
+        <p class="signature">Синиша Предрагович</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Синиша Предрагович · +7 985 111 80 16 · sinisapre@gmail.com · Москва, Россия</p>
+  <p><a href="https://github.com/sinisapre-arch" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/sinisapre" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  // Language toggle
+  const langBtns = document.querySelectorAll('.lang-btn');
+  const langData = {ru: 'ru', en: 'en'};
+  let currentLang = localStorage.getItem('cv-lang') || 'ru';
+
+  function applyLang(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+      const text = el.dataset[lang];
+      if (text !== undefined) {
+        if (el.tagName === 'TIME') {
+          el.textContent = text;
+        } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = text;
+        } else {
+          el.textContent = text;
+        }
+      }
+    });
+    langBtns.forEach(btn => {
+      const isActive = btn.dataset.lang === lang;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', isActive);
+    });
+    localStorage.setItem('cv-lang', lang);
+  }
+
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+  applyLang(currentLang);
+
+  // Scroll progress
+  const progress = document.getElementById('scroll-progress');
+  function updateProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progressPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+    progress.style.transform = `scaleX(${progressPercent})`;
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  // Reveal on scroll (IntersectionObserver with CSS fallback)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealElements = document.querySelectorAll('.reveal');
+
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.1, rootMargin: '0px 0px -50px 0px'});
+
+    revealElements.forEach(el => observer.observe(el));
+  } else {
+    // Fallback: show all immediately
+    revealElements.forEach(el => el.classList.add('visible'));
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e){
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({behavior: 'smooth', block: 'start'});
+        target.focus({preventScroll: true});
+      }
+    });
+  });
+
+  // Profile photo hover tilt (subtle, CSS-only via transform)
+  const photo = document.querySelector('.profile-photo');
+  if (photo && !prefersReduced) {
+    photo.addEventListener('mousemove', (e) => {
+      const rect = photo.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      photo.style.transform = `perspective(500px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg) scale(1.02)`;
+    });
+    photo.addEventListener('mouseleave', () => {
+      photo.style.transform = '';
+    });
+  }
+})();
+</script>
+</body>
+</html>

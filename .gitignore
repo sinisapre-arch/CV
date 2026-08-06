@@ -1,0 +1,6 @@
+# CV Website files — keep GitHub Pages happy, ignore dev artifacts
+extract-photo.py
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
